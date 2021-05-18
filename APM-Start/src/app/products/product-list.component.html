@@ -1,0 +1,61 @@
+<div class='card'
+     style='margin:2% 5%;'>
+  <div class='card-header'>
+    {{pageTitle}}
+  </div>
+  <div class='card-body'>
+    <div class='row'>
+      <div class='col-md-2'>Filter by:</div>
+      <div class='col-md-4'>
+        <input type='text'
+               [(ngModel)]='listFilter' />
+      </div>
+    </div>
+    <div class='row'
+         *ngIf='listFilter'>
+      <div class='col-md-6'>
+        <h4>Filtered by: {{listFilter}}</h4>
+      </div>
+    </div>
+    <div class='table-responsive'>
+      <table class='table'
+             *ngIf='products.length'>
+        <thead>
+          <tr>
+            <th>
+              <button class='btn btn-primary'
+                      (click)='toggleImage()'>
+                {{imageBehaviour.show ? 'Hide' : 'Show'}} Image
+              </button>
+            </th>
+            <th>Product</th>
+            <th>Code</th>
+            <th>Available</th>
+            <th>Price</th>
+            <th>5 Star Rating</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor='let product of filteredProducts'>
+            <td><img *ngIf='imageBehaviour.show'
+                   [src]="product.imageUrl"
+                   [style.height.px]="imageBehaviour.height"></td>
+            <td>{{product.productName}}</td>
+            <td>{{product.productCode | lowercase | covertToSpace:'-'}}</td>
+            <td>{{product.releaseDate}}</td>
+            <td>{{product.price | currency:'INR'}}</td>
+            <td>
+              <pm-star [rating]="product.starRating"
+                       (ratingChanged)="onRatingChanged($event, product.productId)">
+              </pm-star>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<!--<div *ngIf='errorMessage'
+       class='alert alert-danger'>
+    Error: {{ errorMessage }}
+  </div>-->
